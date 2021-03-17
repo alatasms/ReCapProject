@@ -23,7 +23,7 @@ namespace Business.Concrete
 
         public void Delete(Color color)
         {
-            _colorDal.Add(color);
+            _colorDal.Delete(color);
         }
 
         public List<Color> GetAll()
