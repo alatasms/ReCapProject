@@ -13,6 +13,11 @@ namespace ConsoleUI
             CarManager carManager = new CarManager(new EfCarDal());
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             ColorManager colorManager = new ColorManager(new EfColorDal());
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            
+
+
 
             //brandManager.Add(new Brand { Name="Toyota" });
             //brandManager.Add(new Brand { Name="Fiat"});
@@ -30,13 +35,63 @@ namespace ConsoleUI
             //carManager.Delete(new Car { Id = 2007 });
             //carManager.Update(new Car { Id = 2008, BrandId = 2, ColorId = 1, DailyPrice = 100, ModelYear = 2001, CarName = "My Car" });
 
+            //customerManager.Add(new Customer { CompanyName = "Ünanlar", UserId = 2});
+            //customerManager.Update(new Customer { Id=1002, UserId=2,CompanyName = "Rüzgarlar" });
+            //customerManager.Delete(new Customer { Id=1002});
 
 
+
+            //rentalManager.Add(new Rental { CarId = 1, CustomerId = 1, RentDate = new DateTime(2020, 12, 29), ReturnDate = new DateTime(2021, 03, 20) });
+            //rentalManager.Delete(new Rental { Id = 1 });
+            //rentalManager.Update(new Rental { Id = 1, CarId=2,CustomerId=1,RentDate=new DateTime(2020,12,13),ReturnDate=new DateTime(2021,01,13)});
+
+
+            //RentalDetailTest();
+            //CustomerDetailTest();
             //CarTest(carManager);
-
             //ColorTest(colorManager);
-            BrandTest(brandManager);
+            //BrandTest(brandManager);
+            //CustomerTest(customerManager);
 
+
+
+
+            
+
+        }
+
+        private static void RentalDetailTest()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            var result = rentalManager.GetRentalDetails();
+
+            foreach (var rental in result.Data)
+            {
+
+                Console.WriteLine(rental.CarName+" "+rental.CustomerName+" "+rental.CustomerLastName+" "+rental.ColorName+" "+rental.BrandName+" "+rental.DailyPrice+" "+rental.RentDate+" "+rental.ReturnDate);
+
+            }
+        }
+        private static void CustomerDetailTest()
+        {
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            var result = customerManager.GetCustomerDetail();
+
+            foreach (var rental in result.Data)
+            {
+
+                Console.WriteLine(rental.CompanyName+" "+rental.UserName+" "+rental.UserLastName+" "+rental.Email+" "+rental.Password);
+
+            }
+        }
+
+
+        private static void CustomerTest(CustomerManager customerManager)
+        {
+            foreach (var customer in customerManager.GetAll().Data)
+            {
+                Console.WriteLine(customer.CompanyName + " " + customer.Id);
+            }
         }
 
         private static void BrandTest(BrandManager brandManager)
@@ -54,13 +109,19 @@ namespace ConsoleUI
                 Console.WriteLine(color.Name);
             }
         }
-
+        
         private static void CarTest(CarManager carManager)
         {
-            foreach (var car in carManager.GetCarDetails())
+            var result = carManager.GetCarDetails();
+            if (result.Success==true)
             {
-                Console.WriteLine(car.Id + " " + car.CarName + " " + car.ColorName + " " + car.BrandName + " " + car.DailyPrice);
+                foreach (var car in carManager.GetCarDetails().Data)
+                {
+                    Console.WriteLine(car.Id + " " + car.CarName + " " + car.ColorName + " " + car.BrandName + " " + car.DailyPrice);
+                }
             }
+
+            
         }
 
 
