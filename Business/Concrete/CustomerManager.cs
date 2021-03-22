@@ -21,38 +21,31 @@ namespace Business.Concrete
 
         public IResult Add(Customer customer)
         {
-            //if (customer.Id !=0)
-            //{
                 _customerDal.Add(customer);
-                return new SuccesResult(Messages.CustomerAdded);
-            //}
-            //else
-            //{
-            //    return new ErrorResult(Messages.NoCustomerAdded);
-            //}
-            
+                return new SuccesResult(Messages.Added);
+ 
         }
 
         public IResult Delete(Customer customer)
         {
             _customerDal.Delete(customer);
-            return new SuccesResult(Messages.CustomerDeleted);
+            return new SuccesResult(Messages.Deleted);
         }
 
         public IDataResult<List<Customer>> GetAll()
         {
-            return new SuccesDataResult<List<Customer>>(_customerDal.GetAll(),Messages.CustomerListed);
+            return new SuccesDataResult<List<Customer>>(_customerDal.GetAll(),Messages.Listed);
         }
 
         public IDataResult<List<CustomerDetailDto>> GetCustomerDetail()
         {
-            return new SuccesDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails());
+            return new SuccesDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetails(), Messages.Listed);
         }
 
         public IResult Update(Customer customer)
         {
             _customerDal.Update(customer);
-            return new SuccesResult(Messages.CustomerUpdated);
+            return new SuccesResult(Messages.Updated);
         }
     }
 }

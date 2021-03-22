@@ -14,10 +14,6 @@ namespace ConsoleUI
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             ColorManager colorManager = new ColorManager(new EfColorDal());
             CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
-            RentalManager rentalManager = new RentalManager(new EfRentalDal());
-            
-
-
 
             //brandManager.Add(new Brand { Name="Toyota" });
             //brandManager.Add(new Brand { Name="Fiat"});
@@ -96,7 +92,7 @@ namespace ConsoleUI
 
         private static void BrandTest(BrandManager brandManager)
         {
-            foreach (var brand in brandManager.GetAll())
+            foreach (var brand in brandManager.GetAll().Data)
             {
                 Console.WriteLine(brand.Name);
             }
@@ -104,7 +100,7 @@ namespace ConsoleUI
 
         private static void ColorTest(ColorManager colorManager)
         {
-            foreach (var color in colorManager.GetAll())
+            foreach (var color in colorManager.GetAll().Data)
             {
                 Console.WriteLine(color.Name);
             }
