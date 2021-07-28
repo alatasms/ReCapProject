@@ -11,6 +11,7 @@ using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Business.BusinessAspects.Autofac;
 
 namespace Business.Concrete
 {
@@ -36,7 +37,7 @@ namespace Business.Concrete
             _carDal.Delete(car);
             return new SuccesResult(Messages.Deleted);
         }
-
+        [SecuredOperation("product.add,admin")]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccesDataResult<List<Car>>(_carDal.GetAll(),Messages.Listed);
