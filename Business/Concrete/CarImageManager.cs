@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Core.Aspects.Autofac.Caching;
 
 namespace Business.Concrete
 {
@@ -24,6 +25,7 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
         }
         [ValidationAspect(typeof(CarImageValidator))]
+        [CacheRemoveAspects("ICarImageService.Get")]
         public IResult Add(IFormFile file,CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckIfImageLimitExceded(carImage.CarId));
@@ -41,7 +43,7 @@ namespace Business.Concrete
             return new SuccesResult(Messages.Added);
         }
 
-
+        [CacheRemoveAspects("ICarImageService.Get")]
         public IResult Delete(CarImage carImage)
         {
             var image = _carImageDal.Get(p => p.Id == carImage.Id);
@@ -54,7 +56,7 @@ namespace Business.Concrete
             return new SuccesResult(Messages.Deleted);
         }
 
-
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetAll()
         {
             return new SuccesDataResult<List<CarImage>>(_carImageDal.GetAll(), Messages.Listed);
@@ -79,6 +81,7 @@ namespace Business.Concrete
 
 
         [ValidationAspect(typeof(CarImageValidator))]
+        [CacheRemoveAspects("ICarImageService.Get")]
         public IResult Update(IFormFile file, CarImage carImage)
         {
             var image = _carImageDal.Get(p => p.Id == carImage.Id);

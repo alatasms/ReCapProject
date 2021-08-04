@@ -12,6 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Business.BusinessAspects.Autofac;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 
 namespace Business.Concrete
 {
@@ -23,27 +26,41 @@ namespace Business.Concrete
         {
             _carDal = carDal;
         }
-
+        [SecuredOperation("admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspects("ICarService.Get")]
         public IResult Add(Car car)
         {         
             _carDal.Add(car);
             return new SuccesResult(Messages.Added);
             
         }
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Car car)
+        {
+            Add(car);
+            if (car.DailyPrice < 10)
+            {
+                throw new Exception("");
+            }
 
+            Add(car);
+            return null;
+        }
+        [SecuredOperation("admin")]
+        [CacheRemoveAspects("ICarService.Get")]
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
             return new SuccesResult(Messages.Deleted);
         }
-        [SecuredOperation("product.add,admin")]
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccesDataResult<List<Car>>(_carDal.GetAll(),Messages.Listed);
             
         }
-
         public IDataResult<List<Car>> GetByBrandId(int id)
         {
             return new SuccesDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == id),Messages.Listed);
@@ -53,18 +70,18 @@ namespace Business.Concrete
         {
             return new SuccesDataResult < List < Car >>(_carDal.GetAll(p => p.ColorId == id),Messages.Listed);
         }
-
+        [PerformanceAspect(5)]
         public IDataResult<List<Car>> GetById(int id)
         {
             return new SuccesDataResult < List < Car >> (_carDal.GetAll(p => p.Id == id),Messages.Listed);
 
         }
-
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             return new SuccesDataResult < List <CarDetailDto>>(_carDal.GetCarDetails(),Messages.Listed);
         }
-
+        [SecuredOperation("admin")]
+        [CacheRemoveAspects("ICarService.Get")]
         public IResult Update(Car car)
         {
             _carDal.Update(car);
