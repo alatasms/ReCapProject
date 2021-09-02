@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Entities.Concrete;
 
 namespace Entities.DTOs
 {
@@ -11,7 +12,12 @@ namespace Entities.DTOs
         public string CarName { get; set; }
         public string BrandName { get; set; }
         public string ColorName { get; set; }
-        public int MyProperty { get; set; }
+        public int CarId { get; set; }
+        public int BrandId { get; set; }
+        public int ColorId { get; set; }
+        public int ModelYear { get; set; }
+        public string Description { get; set; }
         public int DailyPrice { get; set; }
+        public List<CarImage> CarImage { get; set; }
     }
 }

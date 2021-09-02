@@ -68,18 +68,36 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetByColorId(int id)
         {
-            return new SuccesDataResult < List < Car >>(_carDal.GetAll(p => p.ColorId == id),Messages.Listed);
+            return new SuccesDataResult<List<Car>>(_carDal.GetAll(p => p.ColorId == id),Messages.Listed);
         }
         [PerformanceAspect(5)]
         public IDataResult<List<Car>> GetById(int id)
         {
-            return new SuccesDataResult < List < Car >> (_carDal.GetAll(p => p.Id == id),Messages.Listed);
+            return new SuccesDataResult<List<Car>>(_carDal.GetAll(p => p.Id == id),Messages.Listed);
 
         }
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccesDataResult < List <CarDetailDto>>(_carDal.GetCarDetails(),Messages.Listed);
+            return new SuccesDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(),Messages.Listed);
         }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandId(int brandId)
+        {
+            return new SuccesDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(p => p.BrandId == brandId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByCarId(int carId)
+        {
+            return new SuccesDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(p => p.CarId == carId));
+
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorId(int colorId)
+        {
+            return new SuccesDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(p => p.ColorId == colorId));
+
+        }
+
         [SecuredOperation("admin")]
         [CacheRemoveAspects("ICarService.Get")]
         public IResult Update(Car car)

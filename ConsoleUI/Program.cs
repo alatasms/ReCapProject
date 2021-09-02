@@ -64,7 +64,7 @@ namespace ConsoleUI
             foreach (var rental in result.Data)
             {
 
-                Console.WriteLine(rental.CarName+" "+rental.CustomerName+" "+rental.CustomerLastName+" "+rental.ColorName+" "+rental.BrandName+" "+rental.DailyPrice+" "+rental.RentDate+" "+rental.ReturnDate);
+                Console.WriteLine(rental.CarName+" "+rental.CustomerFirstName+" "+rental.CustomerLastName+" "+rental.BrandName+" "+rental.DailyPrice+" "+rental.RentDate+" "+rental.ReturnDate);
 
             }
         }
@@ -106,20 +106,7 @@ namespace ConsoleUI
             }
         }
         
-        private static void CarTest(CarManager carManager)
-        {
-            var result = carManager.GetCarDetails();
-            if (result.Success==true)
-            {
-                foreach (var car in carManager.GetCarDetails().Data)
-                {
-                    Console.WriteLine(car.Id + " " + car.CarName + " " + car.ColorName + " " + car.BrandName + " " + car.DailyPrice);
-                }
-            }
-
-            
-        }
-
+        
 
     }
 }
